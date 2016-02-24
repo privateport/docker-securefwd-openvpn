@@ -53,14 +53,6 @@ if [ ! -d "/persistant/openssl" ]; then
 fi
 ln -s /persistant/openssl /etc/openssl
 
-git clone https://github.com/privateport/openssl-utils.git /tmp/openssl-utils \
-                && /tmp/openssl-utils/install.sh \
-                && rm -rf /tmp/openssl-utils \
-        && git clone https://github.com/privateport/openvpn-utils.git /tmp/openvpn-utils \
-                && /tmp/openvpn-utils/install.sh \
-                && rm -rf /tmp/openvpn-utils
-
-
 if [ -n "$DEBUG" ]; then
 	/bin/bash
 	exit 0
