@@ -15,12 +15,10 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/reposi
         	&& apk del `grep 'Installing' /tmp/install.txt | awk {'print $3'} | xargs echo` \
 		&& rm -rf /tmp/install.txt \
 	&& git clone https://github.com/privateport/openssl-utils.git /tmp/openssl-utils \
-		&& cd /tmp/openssl-utils \
-		&& ./install.sh \
+		&& /tmp/openssl-utils/install.sh \
 		&& rm -rf /tmp/openssl-utils \
 	&& git clone https://github.com/privateport/openvpn-utils.git /tmp/openvpn-utils \
-		&& cd /tmp/openvpn-utils \
-		&& ./install.sh \
+		&& /tmp/openvpn-utils/install.sh \
 		&& rm -rf /tmp/openvpn-utils
 
 VOLUME ["/etc/openvpn"]
