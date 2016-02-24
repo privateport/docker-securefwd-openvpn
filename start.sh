@@ -53,6 +53,13 @@ if [ ! -d "/persistant/openssl" ]; then
 fi
 ln -s /persistant/openssl /etc/openssl
 
+git clone https://github.com/privateport/openssl-utils.git /tmp/openssl-utils \
+                && /tmp/openssl-utils/install.sh \
+                && rm -rf /tmp/openssl-utils \
+        && git clone https://github.com/privateport/openvpn-utils.git /tmp/openvpn-utils \
+                && /tmp/openvpn-utils/install.sh \
+                && rm -rf /tmp/openvpn-utils
+
 
 if [ -n "$DEBUG" ]; then
 	/bin/bash
@@ -103,11 +110,15 @@ if [ -n "$START" ]; then
 	echo "Starting Openvpn..."
 	build-openvpn-config
 	track-changes-etchosts-dns-openvpn-conf.sh&
-	if [ ! -d "/persistant/openssl "]; then
+	if [ ! -d "/persistant/openssl" ]; then
 		mkdir -p /persistant/openssl
 	fi
 	ln -s /persistant/openssl /etc/openssl
 	cd /root/natpunchc
 	npm start &
-	openvpn --config /etc/openvpn/openvpn.conf
+	# We do the following as track-changes-daemon above will kill openvpn so it restarts if the dns changes IP.
+	# I Should actually let docker restart this, I need to investigate how this works later, probably using compose.
+	while true; do
+		openvpn --config /etc/openvpn/openvpn.conf
+	done
 fi
