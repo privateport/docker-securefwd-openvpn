@@ -106,7 +106,7 @@ if [ -n "$START" ]; then
 		mkdir -p /persistant/openssl
 	fi
 	ln -s /persistant/openssl /etc/openssl
-	cd /root/natpunchc
+	cd /root/natpunchc && git pull
 	npm start &
 	# We do the following as track-changes-daemon above will kill openvpn so it restarts if the dns changes IP.
 	# I Should actually let docker restart this, I need to investigate how this works later, probably using compose.
